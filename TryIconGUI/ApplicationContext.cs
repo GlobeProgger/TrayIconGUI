@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms.Integration;
 using System.Windows.Forms;
+using MyForm.View;
 using TryIconGUI.Properties;
 
 namespace TryIconGUI
@@ -18,6 +19,10 @@ namespace TryIconGUI
             _trayIcon.ContextMenuStrip.Items.Add(new ToolStripSeparator());
             _trayIcon.ContextMenuStrip.Items.Add("Show &Details", null, click);
             _trayIcon.ContextMenuStrip.Items.Add(new ToolStripSeparator());
+
+#if DEBUG
+            OpenForm(); 
+#endif
         }
 
         private void InitializeContext()
@@ -35,11 +40,17 @@ namespace TryIconGUI
 
         private void click(object sender, EventArgs e)
         {
-            var form = new MyForm.MainWindow();
+            OpenForm();
+        }
+
+        private static void OpenForm()
+        {
+            var form = new MainWindow();
 
             ElementHost.EnableModelessKeyboardInterop(form);
             form.Show();
         }
+
 
         #region Implementation
         NotifyIcon _trayIcon;
