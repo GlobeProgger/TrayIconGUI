@@ -6,32 +6,49 @@
         xmlns:local="clr-namespace:MyForm"
         xmlns:Model="clr-namespace:MyForm.Model" xmlns:ViewModel="clr-namespace:MyForm.ViewModel" x:Class="MyForm.View.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="405">
+        Title="MainWindow" ResizeMode="NoResize" SizeToContent="WidthAndHeight" >
+    <Window.Resources>
+        <local:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <local:NameOfObjectConverter x:Key="NameOfObjectConverter" />
+        <DataTemplate x:Key="MyListViewTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150"></ColumnDefinition>
+                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Content="{Binding Item1, Mode=OneWay}" Focusable="False"/>
+                <TextBox Grid.Column="1" Text="{Binding Item2, Mode=OneWay}" Width="150"
+                         VerticalAlignment="Center" HorizontalAlignment="Left" ></TextBox>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="MyListViewWithButtonTemplate" >
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Content="{Binding Item1, Mode=OneWay}" />
+                <TextBox Grid.Column="1" Text="{Binding Item2, Mode=OneWay}" Width="150"
+                         VerticalAlignment="Center" HorizontalAlignment="Left" />
+                <Button Grid.Column="2" Width="75" Margin="10,0,0,0" 
+                        Visibility="{Binding Item3, ConverterParameter=StatusContent/Item3, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
+            </Grid>
+        </DataTemplate>
+    </Window.Resources>
     <Window.DataContext>
         <ViewModel:MyViewModel/>
     </Window.DataContext>
     <Grid>
-        <TabControl>
-            <TabItem Header="{Binding Title, Mode=OneWay}">
-                <ListView>
-
-                </ListView>
-                <!--<StackPanel>
-                    <Grid Margin="5">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="2*"/>
-                        </Grid.ColumnDefinitions>
-                        <Label Grid.Column="0" Margin="10,0,0,0"/>
-                        <TextBox Grid.Column="1" Margin="0,0,50,0"/>
-                    </Grid>
-                </StackPanel>-->
-        
+        <TabControl Margin="10" >
+            <TabItem Header="{Binding StatusContent, ConverterParameter=Status, Converter={StaticResource NameOfObjectConverter}}">
+                <ListView ItemsSource="{Binding StatusContent}" ItemTemplate="{DynamicResource MyListViewTemplate}" IsTextSearchCaseSensitive="True" />
             </TabItem>
-            <TabItem Header="Tabs"/>
+            <TabItem Header="{Binding Settings, ConverterParameter=Settings, Converter={StaticResource NameOfObjectConverter}}">
+                <ListView ItemsSource="{Binding SettingsContent}" ItemTemplate="{DynamicResource MyListViewWithButtonTemplate}" />
+            </TabItem>
             <TabItem Header="Obfuscation"/>
         </TabControl>
     </Grid>
-
 </Window>
 

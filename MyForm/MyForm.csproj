@@ -63,6 +63,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="NameOfObjectConverter.cs" />
+    <Compile Include="Model\Settings.cs" />
     <Compile Include="Model\Status.cs" />
     <Compile Include="PropertyChangedNotifier.cs" />
     <Compile Include="View\MainWindow.xaml.cs">
