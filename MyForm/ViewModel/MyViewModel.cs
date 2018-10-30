@@ -19,6 +19,7 @@ namespace MyForm.ViewModel
             _status = new Status();
             _settings = new Settings(_status);
 
+            // TODO: Stop using these
             _statusContent = new ObservableCollection<Tuple<string, string>>();
             _settingsContent = new ObservableCollection<Tuple<string, string, bool>>();
 
